@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 class Logger {
     constructor() {
 
@@ -11,37 +13,50 @@ class Logger {
             typeof log === "bigint"
     }
 
-    _log(func, tag, message, desc) {
+    _log(func, tag, subject, message) {
+        if (!subject) {
+            subject = ''
+        }
+
         if (this._canOneLine(message)) {
-            if (desc) {
-                func(`[${tag}] ${desc} - ${message}`)
-            } else {
-                func(`[${tag}] ${message}`)
+            if (subject !== '' && message !== '') {
+                subject = `${subject} - `
             }
+            func(`${tag}${subject}${message}`)
         } else {
-            func(`[${tag}] ${desc}`)
+            func(`${tag}${subject}`)
             func(message)
         }
     }
 
-    info(tag, message, desc) {
+    _getTagStr(tag) {
+        if (tag instanceof Vue) {
+            return `[${tag.$options.name}] `
+        } else if (typeof tag === "string") {
+            return `[${tag}] `
+        } else {
+            return ''
+        }
+    }
+
+    info(tag, subject, message) {
         if (process.env.NODE_ENV === 'production') return
 
-        this._log(console.info, tag, message, desc)
+        this._log(console.info, this._getTagStr(tag), subject, message)
     }
 
-    debug(tag, message, desc) {
+    debug(tag, subject, message) {
         if (process.env.NODE_ENV === 'production') return
 
-        this._log(console.debug, tag, message, desc)
+        this._log(console.debug, this._getTagStr(tag), subject, message)
     }
 
-    warn(tag, message, desc) {
-        this._log(console.warn, tag, message, desc)
+    warn(tag, subject, message) {
+        this._log(console.warn, this._getTagStr(tag), subject, message)
     }
 
-    error(tag, message, desc) {
-        this._log(console.error, tag, message, desc)
+    error(tag, subject, message) {
+        this._log(console.error, this._getTagStr(tag), subject, message)
     }
 }
 

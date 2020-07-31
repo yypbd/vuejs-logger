@@ -39,7 +39,7 @@ export default {
     msg: String
   },
   created() {
-    logger.info('HelloWorld', 'created')
+    logger.info(this, 'created', '')
   }
 }
 </script>
