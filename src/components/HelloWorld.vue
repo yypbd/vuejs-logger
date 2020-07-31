@@ -31,10 +31,15 @@
 </template>
 
 <script>
+import {logger} from "@/plugins/logger";
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  created() {
+    logger.info('HelloWorld', 'created')
   }
 }
 </script>
