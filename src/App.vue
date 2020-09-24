@@ -45,6 +45,8 @@ export default {
       logger.debug('sample', 'testLogger', 'test debug')
       logger.warn('sample', 'testLogger', 'test warn')
       logger.error('sample', 'testLogger', 'test error')
+
+      logger.info('sample', 'testLogger', [{"name": "aaa", "age": 10}, {"name": "bbb", "age": 20}, {"name": "ccc", "age": 30}])
     },
     testFunc: function () {
       //

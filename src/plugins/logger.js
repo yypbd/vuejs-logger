@@ -23,6 +23,9 @@ class Logger {
                 subject = `${subject} - `
             }
             func(`${tag}${subject}${message}`)
+        } else if (Array.isArray(message)) {
+            func(`${tag}${subject}`)
+            console.table(message)
         } else {
             func(`${tag}${subject}`)
             func(message)
